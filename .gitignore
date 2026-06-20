@@ -1,0 +1,15 @@
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+
+# IDE folders
+.idea/
+.vscode/
+*.iml
+
+# OS junk
+.DS_Store
+Thumbs.db
