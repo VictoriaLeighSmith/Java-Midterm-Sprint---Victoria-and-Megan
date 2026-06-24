@@ -45,25 +45,25 @@ public class MedicationTrackingSystemTest {
             System.out.println();
 
             // Get menu choice from user
-            System.out.println("Choose the number corresponding with your desired option (0 to Exit): ");
+            System.out.print("Choose the number corresponding with your desired option (0 to Exit): ");
             choice = scanner.nextInt();
 
             switch (choice) {
 
                 // Add a patient to the system
                 case 1:
-                    System.out.println("Enter patient id: ");
+                    System.out.print("Enter patient id: ");
                     int id = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient name: ");
+                    System.out.print("Enter patient full name: ");
                     String name = scanner.nextLine();
 
-                    System.out.println("Enter patient age: ");
+                    System.out.print("Enter patient age: ");
                     int age = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient phone number: ");
+                    System.out.print("Enter patient phone number: ");
                     String phoneNumber = scanner.nextLine();
 
                     Patient newPatient = new Patient(id, name, age, phoneNumber);
@@ -71,74 +71,64 @@ public class MedicationTrackingSystemTest {
 
                     System.out.println("Patient added successfully.");
                     System.out.println(newPatient);
+
                     break;
 
                 // Remove a patient from the system
                 case 2:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient name to remove: ");
-                    String removeName = scanner.nextLine();
+                    System.out.print("Enter patient name to remove: ");
+                    String patientToRemove = scanner.nextLine();
 
-                    Patient patientToRemove = system.searchPatientByName(removeName);
+                    boolean removedPatient = system.removePatient(patientToRemove);
+                    System.out.println(removedPatient ? "Patient removed successfully." : "Patient not found.");
 
-                    if (patientToRemove != null) {
-                        system.removePatient(patientToRemove);
-                        System.out.println("Patient removed successfully.");
-                    } else {
-                        System.out.println("Patient not found.");
-                    }
                     break;
 
                 // Edit a patient's information
                 case 3:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient name to edit: ");
+                    System.out.print("Enter patient name to edit: ");
                     String editPatientName = scanner.nextLine();
 
-                    Patient patientToEdit = system.searchPatientByName(editPatientName);
+                    System.out.print("Enter new patient name: ");
+                    String newPatientName = scanner.nextLine();
 
-                    if (patientToEdit != null) {
-                        System.out.println("Enter new patient name: ");
-                        String newPatientName = scanner.nextLine();
+                    System.out.print("Enter new patient age: ");
+                    int newPatientAge = scanner.nextInt();
+                    scanner.nextLine(); // clear leftover Enter
 
-                        System.out.println("Enter new patient age: ");
-                        int newPatientAge = scanner.nextInt();
-                        scanner.nextLine(); // clear leftover Enter
+                    System.out.print("Enter new patient phone number: ");
+                    String newPatientPhone = scanner.nextLine();
 
-                        System.out.println("Enter new patient phone number: ");
-                        String newPatientPhone = scanner.nextLine();
+                    boolean editPatientFound = system.editPatient(editPatientName, newPatientName, newPatientAge,
+                            newPatientPhone);
+                    System.out.println(editPatientFound ? "Patient details edited successfully" : "Patient not found");
 
-                        system.editPatient(patientToEdit, newPatientName, newPatientAge, newPatientPhone);
-
-                        System.out.println("Patient edited successfully.");
-                        System.out.println(patientToEdit);
-                    } else {
-                        System.out.println("Patient not found.");
-                    }
                     break;
 
                 // Add a doctor to the system
                 case 4:
-                    System.out.println("Enter doctor id: ");
+                    System.out.print("Enter doctor id: ");
                     int docId = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor name: ");
+                    System.out.print("Enter doctor name: ");
                     String docName = scanner.nextLine();
 
-                    System.out.println("Enter doctor age: ");
+                    System.out.print("Enter doctor age: ");
                     int docAge = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor phone number: ");
+                    System.out.print("Enter doctor phone number: ");
                     String docPhoneNumber = scanner.nextLine();
 
-                    System.out.println("Enter doctor specialty: ");
-                    String specialty = scanner.nextLine();
+                    System.out.print("Enter doctor specialization: ");
+                    String specialization = scanner.nextLine();
 
-                    Doctor newDoctor = new Doctor(docId, docName, docAge, docPhoneNumber, specialty);
+                    Doctor newDoctor = new Doctor(docId, docName, docAge, docPhoneNumber, specialization);
                     system.addDoctor(newDoctor);
 
                     System.out.println("Doctor added successfully.");
@@ -149,68 +139,58 @@ public class MedicationTrackingSystemTest {
                 case 5:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor name to remove: ");
-                    String removeDoc = scanner.nextLine();
+                    System.out.print("Enter doctor name to remove: ");
+                    String doctorToRemove = scanner.nextLine();
 
-                    Doctor doctorToRemove = system.searchDoctorByName(removeDoc);
+                    boolean removedDoctor = system.removeDoctor(doctorToRemove);
+                    System.out.println(removedDoctor ? "Doctor removed successfully." : "Doctor not found.");
 
-                    if (doctorToRemove != null) {
-                        system.removeDoctor(doctorToRemove);
-                        System.out.println("Doctor removed successfully.");
-                    } else {
-                        System.out.println("Doctor not found.");
-                    }
                     break;
 
                 // Edit a doctor's information
                 case 6:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor name to edit: ");
+                    System.out.print("Enter doctor name to edit: ");
                     String editDoctorName = scanner.nextLine();
 
-                    Doctor doctorToEdit = system.searchDoctorByName(editDoctorName);
+                    System.out.print("Enter new doctor name: ");
+                    String newDoctorName = scanner.nextLine();
 
-                    if (doctorToEdit != null) {
-                        System.out.println("Enter new doctor name: ");
-                        String newDoctorName = scanner.nextLine();
+                    System.out.print("Enter new doctor age: ");
+                    int newDoctorAge = scanner.nextInt();
+                    scanner.nextLine(); // clear leftover Enter
 
-                        System.out.println("Enter new doctor age: ");
-                        int newDoctorAge = scanner.nextInt();
-                        scanner.nextLine(); // clear leftover Enter
+                    System.out.print("Enter new doctor phone number: ");
+                    String newDoctorPhone = scanner.nextLine();
 
-                        System.out.println("Enter new doctor phone number: ");
-                        String newDoctorPhone = scanner.nextLine();
+                    System.out.print("Enter new doctor specialization: ");
+                    String newSpecialization = scanner.nextLine();
 
-                        System.out.println("Enter new doctor specialty: ");
-                        String newSpecialty = scanner.nextLine();
+                    boolean doctorEdited = system.editDoctor(editDoctorName, newDoctorName, newDoctorAge,
+                            newDoctorPhone,
+                            newSpecialization);
+                    System.out.println(doctorEdited ? "Doctor edited successfully" : "Doctor not found");
 
-                        system.editDoctor(doctorToEdit, newDoctorName, newDoctorAge, newDoctorPhone, newSpecialty);
-
-                        System.out.println("Doctor edited successfully.");
-                        System.out.println(doctorToEdit);
-                    } else {
-                        System.out.println("Doctor not found.");
-                    }
                     break;
 
                 // Add a medication to the system
                 case 7:
-                    System.out.println("Enter medication id: ");
+                    System.out.print("Enter medication id: ");
                     int medId = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter medication name: ");
+                    System.out.print("Enter medication name: ");
                     String medName = scanner.nextLine();
 
-                    System.out.println("Enter dose: ");
+                    System.out.print("Enter dose: ");
                     String dose = scanner.nextLine();
 
-                    System.out.println("Enter quantity in stock: ");
+                    System.out.print("Enter quantity in stock: ");
                     int quantInStock = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter expiry date (yyyy-MM-dd): ");
+                    System.out.print("Enter expiry date (YYYY-MM-DD): ");
                     String expiryDate = scanner.nextLine();
                     LocalDate parsedExpiryDate = LocalDate.parse(expiryDate);
 
@@ -225,57 +205,47 @@ public class MedicationTrackingSystemTest {
                 case 8:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter medication name to remove: ");
-                    String removeMed = scanner.nextLine();
+                    System.out.print("Enter medication name to remove: ");
+                    String medicationToRemove = scanner.nextLine();
 
-                    Medication medToRemove = system.searchMedicationByName(removeMed);
+                    boolean removedMedication = system.removeMedication(medicationToRemove);
+                    System.out
+                            .println(removedMedication ? "Medication removed successfully." : "Medication not found.");
 
-                    if (medToRemove != null) {
-                        system.removeMedication(medToRemove);
-                        System.out.println("Medication removed successfully.");
-                    } else {
-                        System.out.println("Medication not found.");
-                    }
                     break;
 
                 // Edit a medication's information
                 case 9:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter medication name to edit: ");
-                    String editMed = scanner.nextLine();
+                    System.out.print("Enter medication name to edit: ");
+                    String editMedicationName = scanner.nextLine();
 
-                    Medication medToEdit = system.searchMedicationByName(editMed);
+                    System.out.print("Enter new medication name: ");
+                    String newMedicationName = scanner.nextLine();
 
-                    if (medToEdit != null) {
-                        System.out.println("Enter new medication name: ");
-                        String newMedName = scanner.nextLine();
+                    System.out.print("Enter new dose: ");
+                    String newDose = scanner.nextLine();
 
-                        System.out.println("Enter new dose: ");
-                        String newDose = scanner.nextLine();
+                    System.out.print("Enter new quantity in stock: ");
+                    int newQuantityInStock = scanner.nextInt();
+                    scanner.nextLine(); // clear leftover Enter
 
-                        System.out.println("Enter new quantity in stock: ");
-                        int newQuantInStock = scanner.nextInt();
-                        scanner.nextLine(); // clear leftover Enter
+                    System.out.print("Enter new expiry date (YYYY-MM-DD): ");
+                    String newExpiryDate = scanner.nextLine();
+                    LocalDate parsedNewExpiryDate = LocalDate.parse(newExpiryDate);
 
-                        System.out.println("Enter new expiry date (yyyy-MM-dd): ");
-                        String newExpiryDate = scanner.nextLine();
-                        LocalDate parsedNewExpiryDate = LocalDate.parse(newExpiryDate);
+                    boolean medicationEdited = system.editMedication(editMedicationName, newMedicationName, newDose,
+                            newQuantityInStock, parsedNewExpiryDate);
+                    System.out.println(medicationEdited ? "Medication edited successfully" : "Medication not found");
 
-                        system.editMedication(medToEdit, newMedName, newDose, newQuantInStock, parsedNewExpiryDate);
-
-                        System.out.println("Medication edited successfully.");
-                        System.out.println(medToEdit);
-                    } else {
-                        System.out.println("Medication not found.");
-                    }
                     break;
 
                 // Search for a patient by name
                 case 10:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient name: ");
+                    System.out.print("Enter patient name: ");
                     String searchName = scanner.nextLine();
 
                     Patient foundPatient = system.searchPatientByName(searchName);
@@ -292,7 +262,7 @@ public class MedicationTrackingSystemTest {
                 case 11:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor name: ");
+                    System.out.print("Enter doctor name: ");
                     String searchDocName = scanner.nextLine();
 
                     Doctor foundDoctor = system.searchDoctorByName(searchDocName);
@@ -309,7 +279,7 @@ public class MedicationTrackingSystemTest {
                 case 12:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter medication name: ");
+                    System.out.print("Enter medication name: ");
                     String searchMedName = scanner.nextLine();
 
                     Medication foundMedication = system.searchMedicationByName(searchMedName);
@@ -326,54 +296,40 @@ public class MedicationTrackingSystemTest {
                 case 13:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient name: ");
+                    System.out.print("Enter patient name: ");
                     String patientNameForDoctor = scanner.nextLine();
 
-                    System.out.println("Enter doctor name: ");
+                    System.out.print("Enter doctor name: ");
                     String doctorNameForPatient = scanner.nextLine();
 
-                    Patient patientForDoctor = system.searchPatientByName(patientNameForDoctor);
-                    Doctor doctorForPatient = system.searchDoctorByName(doctorNameForPatient);
+                    boolean addedToDoctor = system.addPatientToDoctor(patientNameForDoctor, doctorNameForPatient);
+                    System.out.println(
+                            addedToDoctor ? "Patient added to doctor successfully." : "Patient or doctor not found.");
 
-                    if (patientForDoctor != null && doctorForPatient != null) {
-                        system.addPatientToDoctor(patientForDoctor, doctorForPatient);
-                        System.out.println("Patient added to doctor successfully.");
-                    } else {
-                        System.out.println("Patient or doctor not found.");
-                    }
                     break;
 
                 // Accept a prescription and link it to the patient and medication
                 case 14:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter prescription id: ");
+                    System.out.print("Enter prescription id: ");
                     int prescriptionId = scanner.nextInt();
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor name: ");
+                    System.out.print("Enter doctor name: ");
                     String prescriptionDoctorName = scanner.nextLine();
 
-                    System.out.println("Enter patient name: ");
+                    System.out.print("Enter patient name: ");
                     String prescriptionPatientName = scanner.nextLine();
 
-                    System.out.println("Enter medication name: ");
+                    System.out.print("Enter medication name: ");
                     String prescriptionMedicationName = scanner.nextLine();
 
-                    Doctor rxDoctor = system.searchDoctorByName(prescriptionDoctorName);
-                    Patient rxPatient = system.searchPatientByName(prescriptionPatientName);
-                    Medication rxMedication = system.searchMedicationByName(prescriptionMedicationName);
+                    boolean prescriptionAccepted = system.acceptPrescription(prescriptionId, prescriptionDoctorName,
+                            prescriptionPatientName, prescriptionMedicationName);
+                    System.out.println(prescriptionAccepted ? "Prescription accepted successfully."
+                            : "Doctor, patient, or medication not found.");
 
-                    if (rxDoctor != null && rxPatient != null && rxMedication != null) {
-                        Prescription newPrescription = new Prescription(prescriptionId, rxDoctor, rxPatient,
-                                rxMedication);
-                        system.acceptPrescription(newPrescription);
-
-                        System.out.println("Prescription accepted successfully.");
-                        System.out.println(newPrescription);
-                    } else {
-                        System.out.println("Doctor, patient, or medication not found.");
-                    }
                     break;
 
                 // Print a report containing all system data
@@ -390,54 +346,46 @@ public class MedicationTrackingSystemTest {
                 case 17:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter doctor name: ");
+                    System.out.print("Enter doctor name: ");
                     String doctorPrescriptionName = scanner.nextLine();
 
-                    Doctor prescriptionDoctor = system.searchDoctorByName(doctorPrescriptionName);
-
-                    if (prescriptionDoctor != null) {
-                        system.printPrescriptionByDoctor(prescriptionDoctor);
-                    } else {
-                        System.out.println("Doctor not found.");
+                    // Could separate the error messages further but leaving for now
+                    boolean doctorPrescriptionsFound = system.printPrescriptionByDoctor(doctorPrescriptionName);
+                    if (!doctorPrescriptionsFound) {
+                        System.out.println("Doctor not found or prescriptions list empty");
                     }
+
                     break;
 
                 // Print prescription drug names for a specific patient
                 case 18:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter patient name: ");
+                    System.out.print("Enter patient name: ");
                     String patientPrescriptionName = scanner.nextLine();
 
-                    Patient prescriptionPatient = system.searchPatientByName(patientPrescriptionName);
-
-                    if (prescriptionPatient != null) {
-                        system.printPatientPrescriptionDrugNames(prescriptionPatient);
-                    } else {
-                        System.out.println("Patient not found.");
+                    boolean patientPrescriptionsFound = system
+                            .printPatientPrescriptionDrugNames(patientPrescriptionName);
+                    if (!patientPrescriptionsFound) {
+                        System.out.println("Patient not found or no recent prescriptions");
                     }
+
                     break;
 
                 // Restock an existing medication
                 case 19:
                     scanner.nextLine(); // clear leftover Enter
 
-                    System.out.println("Enter medication name to restock: ");
+                    System.out.print("Enter medication name to restock: ");
                     String restockName = scanner.nextLine();
 
-                    Medication medToRestock = system.searchMedicationByName(restockName);
+                    System.out.print("Enter quantity to add: ");
+                    int restockQuantity = scanner.nextInt();
 
-                    if (medToRestock != null) {
-                        System.out.println("Enter quantity to add: ");
-                        int restockQuantity = scanner.nextInt();
+                    boolean medicationRestocked = system.restockMedication(restockName, restockQuantity);
+                    System.out.println(
+                            medicationRestocked ? "Medication restocked successfully" : "Medication not found");
 
-                        system.restockMedication(medToRestock, restockQuantity);
-
-                        System.out.println("Medication restocked successfully.");
-                        System.out.println(medToRestock);
-                    } else {
-                        System.out.println("Medication not found.");
-                    }
                     break;
 
                 // Exit the menu
