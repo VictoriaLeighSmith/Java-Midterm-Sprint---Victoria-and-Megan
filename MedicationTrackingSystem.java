@@ -9,9 +9,6 @@ public class MedicationTrackingSystem {
     private ArrayList<Doctor> doctors = new ArrayList<>();
     private ArrayList<Prescription> prescriptions = new ArrayList<>();
 
-    // Line for report formatting
-    String line = ("-").repeat(40);
-
     // Default no arg constructor to initialize the system
     public MedicationTrackingSystem() {
 
@@ -22,51 +19,91 @@ public class MedicationTrackingSystem {
         patients.add(patient);
     }
 
-    public void removePatient(Patient patient) {
-        patients.remove(patient);
+    public boolean removePatient(String name) {
+        Patient patient = searchPatientByName(name);
+
+        if (patient != null) {
+            patients.remove(patient);
+            return true;
+        }
+
+        return false;
     }
 
-    public void editPatient(Patient patient, String name, int age, String phoneNumber) {
-        // Might want to break these up into individual methods so that the user doesn't
-        // have to providate all values if they only want to change one? Or give the
-        // option to input null for a value and validate.
-        patient.setName(name);
-        patient.setAge(age);
-        patient.setPhoneNumber(phoneNumber);
+    public boolean editPatient(String patientName, String newPatientName, int newAge, String newPhoneNumber) {
+        Patient patient = searchPatientByName(patientName);
+
+        if (patient != null) {
+            patient.setName(newPatientName);
+            patient.setAge(newAge);
+            patient.setPhoneNumber(newPhoneNumber);
+
+            return true;
+        }
+
+        return false;
     }
 
     public void addDoctor(Doctor doctor) {
         doctors.add(doctor);
     }
 
-    public void removeDoctor(Doctor doctor) {
-        doctors.remove(doctor);
+    public boolean removeDoctor(String name) {
+        Doctor doctor = searchDoctorByName(name);
+
+        if (doctor != null) {
+            doctors.remove(doctor);
+            return true;
+        }
+
+        return false;
     }
 
-    public void editDoctor(Doctor doctor, String name, int age, String phoneNumber, String specialization) {
-        // Same as the editPatient method, maybe break this up? Not sure what the best
-        // approach is. Once we get to testing we can see.
-        doctor.setName(name);
-        doctor.setAge(age);
-        doctor.setPhoneNumber(phoneNumber);
-        doctor.setSpecialization(specialization);
+    public boolean editDoctor(String doctorName, String newName, int newAge, String newPhoneNumber,
+            String newSpecialization) {
+        Doctor doctor = searchDoctorByName(doctorName);
+
+        if (doctor != null) {
+            doctor.setName(newName);
+            doctor.setAge(newAge);
+            doctor.setPhoneNumber(newPhoneNumber);
+            doctor.setSpecialization(newSpecialization);
+
+            return true;
+        }
+
+        return false;
     }
 
     public void addMedication(Medication medication) {
         medications.add(medication);
     }
 
-    public void removeMedication(Medication medication) {
-        medications.remove(medication);
+    public boolean removeMedication(String name) {
+        Medication medication = searchMedicationByName(name);
+
+        if (medication != null) {
+            medications.remove(medication);
+            return true;
+        }
+
+        return false;
     }
 
-    public void editMedication(Medication medication, String name, String dose, int quantityInStock,
-            LocalDate expiryDate) {
-        // Same here with breaking it up.
-        medication.setName(name);
-        medication.setDose(dose);
-        medication.setQuantityInStock(quantityInStock);
-        medication.setExpiryDate(expiryDate);
+    public boolean editMedication(String medicationName, String newName, String newDose, int newQuantityInStock,
+            LocalDate newExpiryDate) {
+        Medication medication = searchMedicationByName(medicationName);
+
+        if (medication != null) {
+            medication.setName(newName);
+            medication.setDose(newDose);
+            medication.setQuantityInStock(newQuantityInStock);
+            medication.setExpiryDate(newExpiryDate);
+
+            return true;
+        }
+
+        return false;
     }
 
     public Patient searchPatientByName(String name) {
@@ -77,9 +114,6 @@ public class MedicationTrackingSystem {
             }
         }
 
-        // If patient isn't found, display an error. We can fix this up, just getting
-        // logic going. We have to return null here otherwise Java complains.
-        System.out.println("Patient not found!");
         return null;
     }
 
@@ -91,9 +125,6 @@ public class MedicationTrackingSystem {
             }
         }
 
-        // If doctor isn't found, display an error. We can fix this up, just getting
-        // logic going. We have to return null here otherwise Java complains.
-        System.out.println("Doctor not found!");
         return null;
     }
 
@@ -105,39 +136,54 @@ public class MedicationTrackingSystem {
             }
         }
 
-        // If medication isn't found, display an error. We can fix this up, just getting
-        // logic going. We have to return null here otherwise Java complains.
-        System.out.println("Medication not found!");
         return null;
     }
 
-    public void addPatientToDoctor(Patient patient, Doctor doctor) {
-        doctor.addPatient(patient);
+    public boolean addPatientToDoctor(String patientName, String doctorName) {
+        Patient patient = searchPatientByName(patientName);
+        Doctor doctor = searchDoctorByName(doctorName);
+
+        if (patient != null && doctor != null) {
+            doctor.addPatient(patient);
+            return true;
+        }
+
+        return false;
     }
 
-    public void acceptPrescription(Prescription prescription) {
-        prescriptions.add(prescription);
-        prescription.getPatient().addPrescription(prescription);
-        prescription.getPatient().addMedication(prescription.getMedication());
+    public boolean acceptPrescription(int prescriptionId, String doctorName, String patientName,
+            String medicationName) {
+        Doctor doctor = searchDoctorByName(doctorName);
+        Patient patient = searchPatientByName(patientName);
+        Medication medication = searchMedicationByName(medicationName);
+
+        if (doctor != null && patient != null && medication != null) {
+            Prescription prescription = new Prescription(prescriptionId, doctor, patient, medication);
+
+            prescriptions.add(prescription);
+            patient.addPrescription(prescription);
+            patient.addMedication(medication);
+
+            return true;
+        }
+
+        return false;
     }
 
     public void generateSystemReport() {
-        // Need to format this once we start testing. Chucking it in for now.
-        System.out.println(line);
-        System.out.println("SYSTEM REPORT");
-        System.out.println(line);
+        System.out.println("============== SYSTEM REPORT ===============");
         System.out.println();
         System.out.println("Patients:");
+        System.out.println();
 
         // Loop through patients and print - this will use each class' toString method.
-        // I probably need to change the formatting but just went with how we did it in
-        // class for now.
         for (Patient patient : patients) {
             System.out.println(patient);
         }
 
         System.out.println();
         System.out.println("Medications:");
+        System.out.println();
 
         // Loop through medications and print
         for (Medication medication : medications) {
@@ -146,6 +192,7 @@ public class MedicationTrackingSystem {
 
         System.out.println();
         System.out.println("Doctors:");
+        System.out.println();
 
         // Loop through doctors and print
         for (Doctor doctor : doctors) {
@@ -154,6 +201,7 @@ public class MedicationTrackingSystem {
 
         System.out.println();
         System.out.println("Prescriptions:");
+        System.out.println();
 
         // Loop through prescriptions and print
         for (Prescription prescription : prescriptions) {
@@ -161,14 +209,13 @@ public class MedicationTrackingSystem {
         }
 
         System.out.println();
-        System.out.println(line);
+        System.out.println("============================================");
     }
 
     public void generateExpiredMedicationReport() {
-
-        System.out.println(line);
-        System.out.println("EXPIRED MEDICATIONS");
-        System.out.println(line);
+        System.out.println();
+        System.out.println("=========== EXPIRED MEDICATIONS ============");
+        System.out.println();
 
         // Loop through medications, check expiry date against today's date
         for (Medication medication : medications) {
@@ -178,45 +225,67 @@ public class MedicationTrackingSystem {
         }
 
         System.out.println();
-        System.out.println(line);
+        System.out.println("============================================");
+        System.out.println();
     }
 
-    public void printPrescriptionByDoctor(Doctor doctor) {
+    public boolean printPrescriptionByDoctor(String doctorName) {
+        Doctor doctor = searchDoctorByName(doctorName);
+        boolean prescriptionsFound = false;
 
-        System.out.println(line);
+        if (doctor == null) {
+            return false;
+        }
+
+        System.out.println();
         System.out.printf("Prescriptions Written by %s", doctor.getName());
-        System.out.println(line);
+        System.out.println();
 
         // Loop through doctor's prescriptions
         for (Prescription prescription : prescriptions) {
             if (prescription.getDoctor().equals(doctor)) {
                 System.out.println(prescription);
+                prescriptionsFound = true;
             }
         }
 
         System.out.println();
-        System.out.println(line);
-
+        return prescriptionsFound;
     }
 
-    public void printPatientPrescriptionDrugNames(Patient patient) {
+    public boolean printPatientPrescriptionDrugNames(String patientName) {
+        Patient patient = searchPatientByName(patientName);
+        boolean prescriptionsFound = false;
 
-        System.out.println(line);
+        if (patient == null) {
+            return false;
+        }
+
+        System.out.println();
         System.out.printf("Prescriptions for %s", patient.getName());
-        System.out.println(line);
+        System.out.println();
 
         // Loop through patient's prescriptions and print
         for (Prescription prescription : patient.getPrescriptions()) {
             // Check to make sure that the prescription hasn't expired before printing
-            if (prescription.getIssueDate().isAfter(LocalDate.now().minusYears(1)))
+            if (prescription.getIssueDate().isAfter(LocalDate.now().minusYears(1))) {
                 System.out.println(prescription.getMedication().getName());
-        }
+                prescriptionsFound = true;
+            }
 
+        }
         System.out.println();
-        System.out.println(line);
+        return prescriptionsFound;
     }
 
-    public void restockMedication(Medication medication, int quantity) {
-        medication.setQuantityInStock(medication.getQuantityInStock() + quantity);
+    public boolean restockMedication(String medicationName, int quantity) {
+        Medication medication = searchMedicationByName(medicationName);
+
+        if (medication != null) {
+            medication.setQuantityInStock(medication.getQuantityInStock() + quantity);
+            return true;
+        }
+
+        return false;
     }
 }
