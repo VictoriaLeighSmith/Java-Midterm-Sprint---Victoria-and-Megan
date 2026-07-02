@@ -1,5 +1,15 @@
+
 import java.util.ArrayList;
 import java.time.LocalDate;
+
+/**
+ * The MedicationTrackingSystem class manages the pharmacy management system.
+ * It stores all patients, doctors, medications, and prescriptions and
+ * provides methods for managing the system.
+ *
+ * @author Megan Hickey
+ * @author Victoria Smith
+ */
 
 public class MedicationTrackingSystem {
 
@@ -9,16 +19,30 @@ public class MedicationTrackingSystem {
     private ArrayList<Doctor> doctors = new ArrayList<>();
     private ArrayList<Prescription> prescriptions = new ArrayList<>();
 
-    // Default no arg constructor to initialize the system
+    /**
+     * Default constructor.
+     */
     public MedicationTrackingSystem() {
 
     }
 
     // Add, remove and edit methods
+
+    /**
+     * Adds a patient to the system.
+     *
+     * @param patient The patient to add.
+     */
     public void addPatient(Patient patient) {
         patients.add(patient);
     }
 
+    /**
+     * Removes a patient from the system.
+     *
+     * @param name The patient's name.
+     * @return True if the patient was removed, otherwise false.
+     */
     public boolean removePatient(String name) {
         Patient patient = searchPatientByName(name);
 
@@ -29,6 +53,16 @@ public class MedicationTrackingSystem {
 
         return false;
     }
+
+    /**
+     * Updates a patient's information.
+     *
+     * @param patientName    The patient's current name.
+     * @param newPatientName The new patient name.
+     * @param newAge         The new patient age.
+     * @param newPhoneNumber The new patient phone number.
+     * @return True if the patient was updated, otherwise false.
+     */
 
     public boolean editPatient(String patientName, String newPatientName, int newAge, String newPhoneNumber) {
         Patient patient = searchPatientByName(patientName);
@@ -44,9 +78,22 @@ public class MedicationTrackingSystem {
         return false;
     }
 
+    /**
+     * Adds a doctor to the system.
+     *
+     * @param doctor The doctor to add.
+     */
+
     public void addDoctor(Doctor doctor) {
         doctors.add(doctor);
     }
+
+    /**
+     * Removes a doctor from the system.
+     *
+     * @param name The doctor's name.
+     * @return True if the doctor was removed, otherwise false.
+     */
 
     public boolean removeDoctor(String name) {
         Doctor doctor = searchDoctorByName(name);
@@ -58,6 +105,17 @@ public class MedicationTrackingSystem {
 
         return false;
     }
+
+    /**
+     * Updates a doctor's information.
+     *
+     * @param doctorName        The doctor's current name.
+     * @param newName           The new doctor name.
+     * @param newAge            The new doctor age.
+     * @param newPhoneNumber    The new doctor phone number.
+     * @param newSpecialization The new doctor's specialization.
+     * @return True if the doctor was updated, otherwise false.
+     */
 
     public boolean editDoctor(String doctorName, String newName, int newAge, String newPhoneNumber,
             String newSpecialization) {
@@ -75,9 +133,22 @@ public class MedicationTrackingSystem {
         return false;
     }
 
+    /**
+     * Adds a medication to the system.
+     *
+     * @param medication The medication to add.
+     */
+
     public void addMedication(Medication medication) {
         medications.add(medication);
     }
+
+    /**
+     * Removes a medication from the system.
+     *
+     * @param name The medication name.
+     * @return True if the medication was removed, otherwise false.
+     */
 
     public boolean removeMedication(String name) {
         Medication medication = searchMedicationByName(name);
@@ -89,6 +160,17 @@ public class MedicationTrackingSystem {
 
         return false;
     }
+
+    /**
+     * Updates a medication's information.
+     *
+     * @param medicationName     The medication's current name.
+     * @param newName            The new medication name.
+     * @param newDose            The new medication dose.
+     * @param newQuantityInStock The new quantity in stock.
+     * @param newExpiryDate      The new expiry date.
+     * @return True if the medication was updated, otherwise false.
+     */
 
     public boolean editMedication(String medicationName, String newName, String newDose, int newQuantityInStock,
             LocalDate newExpiryDate) {
@@ -106,6 +188,13 @@ public class MedicationTrackingSystem {
         return false;
     }
 
+    /**
+     * Searches for a patient by name.
+     *
+     * @param name The patient's name.
+     * @return The patient if found, otherwise null.
+     */
+
     public Patient searchPatientByName(String name) {
 
         for (Patient patient : patients) {
@@ -116,6 +205,13 @@ public class MedicationTrackingSystem {
 
         return null;
     }
+
+    /**
+     * Searches for a doctor by name.
+     *
+     * @param name The doctor's name.
+     * @return The doctor if found, otherwise null.
+     */
 
     public Doctor searchDoctorByName(String name) {
 
@@ -128,6 +224,13 @@ public class MedicationTrackingSystem {
         return null;
     }
 
+    /**
+     * Searches for a medication by name.
+     *
+     * @param name The medication name.
+     * @return The medication if found, otherwise null.
+     */
+
     public Medication searchMedicationByName(String name) {
 
         for (Medication medication : medications) {
@@ -138,6 +241,14 @@ public class MedicationTrackingSystem {
 
         return null;
     }
+
+    /**
+     * Assigns a patient to a doctor.
+     *
+     * @param patientName The patient's name.
+     * @param doctorName  The doctor's name.
+     * @return True if the patient was assigned, otherwise false.
+     */
 
     public boolean addPatientToDoctor(String patientName, String doctorName) {
         Patient patient = searchPatientByName(patientName);
@@ -150,6 +261,16 @@ public class MedicationTrackingSystem {
 
         return false;
     }
+
+    /**
+     * Creates and accepts a prescription.
+     *
+     * @param prescriptionId The prescription ID.
+     * @param doctorName     The doctor's name.
+     * @param patientName    The patient's name.
+     * @param medicationName The medication name.
+     * @return True if the prescription was created, otherwise false.
+     */
 
     public boolean acceptPrescription(int prescriptionId, String doctorName, String patientName,
             String medicationName) {
@@ -169,6 +290,11 @@ public class MedicationTrackingSystem {
 
         return false;
     }
+
+    /**
+     * Prints a report containing all patients, doctors,
+     * medications, and prescriptions in the system.
+     */
 
     public void generateSystemReport() {
         System.out.println("============== SYSTEM REPORT ===============");
@@ -212,6 +338,10 @@ public class MedicationTrackingSystem {
         System.out.println("============================================");
     }
 
+    /**
+     * Prints a report showing all expired medications.
+     */
+
     public void generateExpiredMedicationReport() {
         System.out.println();
         System.out.println("=========== EXPIRED MEDICATIONS ============");
@@ -228,6 +358,13 @@ public class MedicationTrackingSystem {
         System.out.println("============================================");
         System.out.println();
     }
+
+    /**
+     * Prints all prescriptions written by a doctor.
+     *
+     * @param doctorName The doctor's name.
+     * @return True if prescriptions were found, otherwise false.
+     */
 
     public boolean printPrescriptionByDoctor(String doctorName) {
         Doctor doctor = searchDoctorByName(doctorName);
@@ -253,6 +390,13 @@ public class MedicationTrackingSystem {
         return prescriptionsFound;
     }
 
+    /**
+     * Prints the names of a patient's current prescription medications.
+     *
+     * @param patientName The patient's name.
+     * @return True if prescriptions were found, otherwise false.
+     */
+
     public boolean printPatientPrescriptionDrugNames(String patientName) {
         Patient patient = searchPatientByName(patientName);
         boolean prescriptionsFound = false;
@@ -277,6 +421,14 @@ public class MedicationTrackingSystem {
         System.out.println();
         return prescriptionsFound;
     }
+
+    /**
+     * Adds more stock to a medication.
+     *
+     * @param medicationName The medication name.
+     * @param quantity       The quantity to add.
+     * @return True if the medication was restocked, otherwise false.
+     */
 
     public boolean restockMedication(String medicationName, int quantity) {
         Medication medication = searchMedicationByName(medicationName);
