@@ -1,7 +1,23 @@
+
+/**
+ * Runs the Pharmacy Management System.
+ * Displays the menu, accepts user input, and calls the
+ * appropriate methods from the MedicationTrackingSystem class.
+ *
+ * @author Megan Hickey
+ * @author Victoria Smith
+ */
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MedicationTrackingSystemTest {
+    /**
+     * Starts the Pharmacy Management System.
+     * Displays the menu until the user chooses to exit.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
 
         // Create the medication tracking system
@@ -349,7 +365,7 @@ public class MedicationTrackingSystemTest {
                     System.out.print("Enter doctor name: ");
                     String doctorPrescriptionName = scanner.nextLine();
 
-                    // Could separate the error messages further but leaving for now
+                    // Display a message if the doctor is not found or has no prescriptions.
                     boolean doctorPrescriptionsFound = system.printPrescriptionByDoctor(doctorPrescriptionName);
                     if (!doctorPrescriptionsFound) {
                         System.out.println("Doctor not found or prescriptions list empty");
